@@ -42,7 +42,7 @@ public class AesCipher {
             if (isHB) {
                 a ^= 0x1b;
             }
-            b = (b >>> 1) & mask;
+            b = (b >>> 1);
 
         }
         return p;
@@ -78,7 +78,7 @@ public class AesCipher {
         }
         for (int j = Nk; j < Nb * (Nr + 1); j++) {
             if (j % Nk == 0) {
-                table[0][j] = table[0][j - Nk] ^ srd(table[1][j - 1]) ^ rc((j / Nk));
+                table[0][j] = table[0][j - Nk] ^ srd(table[1][j - 1]) ^ rc(j / Nk);
                 for (int i = 1; i <= 3; i++) {
                     table[i][j] = table[i][j - Nk] ^ srd(table[(i + 1) % 4][j - 1]);
                 }
@@ -111,7 +111,7 @@ public class AesCipher {
 
     private static void addRoundKey(int[] state, int[][] roundKey, int round) {
         for (int i = 0; i < state.length; i++) {
-            state[i] ^= roundKey[(i % 4)][round * 4 + (i / 4)];
+            state[i] ^= roundKey[i % 4][round * Nb + (i / 4)];
         }
     }
 
